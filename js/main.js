@@ -37,16 +37,15 @@
         .range([chartInnerWidth, 0])
         .domain([0, 139016]);
     
-    
     window.onload = setContext(conWidth, conHeight);
     window.onload = setMap(width, height);
 
     function numberWithCommas(x) {
        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+    
     //set up choropleth map
     function setContext(width, height){
-
 
         //create new svg container for the map
         var conmap = d3.select("body")
@@ -74,10 +73,8 @@
             .defer(d3.json, "data/OhioState.topojson")
             .await(callback);
 
-
         function callback(error, csvData, lorainc, ohio){
             
-           
             //translate TopoJSON
             var lorainCounty = topojson.feature(lorainc, lorainc.objects.LorainCo);
             
@@ -94,15 +91,18 @@
                 .attr("class", "lorainOutlines")
                 .attr("d", path);
             
+            var conTitle = conmap.append("text")
+                .attr("x", (width/2.2))
+                .attr("y", (height/1.27))
+                .attr("class", "conTitle");
             
-            
-            
+            var ohioTitle = d3.select(".conTitle")
+                .text("Ohio"); 
         };
     };
     
     //set up choropleth map
     function setMap(width, height){
-
 
         //create new svg container for the map
         var map = d3.select("body")
@@ -125,28 +125,28 @@
         //use queue to parallelize asynchronous data loading
         d3.queue()
             .defer(d3.csv, "data/loraindemo.csv") //load attributes from csv
-            //.defer(d3.json, "data/WorldCountries.topojson") //load choropleth spatial data
             .defer(d3.json, "data/lorain.topojson") //load choropleth spatial data
+            .defer(d3.json, "data/LorainCoCities.topojson") //load city spatial data
             .await(callback);
 
-
-        function callback(error, csvData, loraint){
+        function callback(error, csvData, loraint, cities){
             //translate europe TopoJSON
             var lorainTracts = topojson.feature(loraint, loraint.objects.lorain).features;
-            
+            var lorainCities = topojson.feature(cities, cities.objects.LorainCoCities).features;
             //join csv data to GeoJSON enumeration units
             lorainTracts = joinData(lorainTracts, csvData)
             
             var colorScale = makeColorScale(csvData);
             //add enumeration units to the map
             setEnumerationUnits(lorainTracts, map, path, colorScale);
-            
+            setCities(lorainCities, map, path);
             //add coordinated visualization to the map
             setChart(csvData, colorScale);
             
             createDropdown(csvData);
         };
     };
+    
     //function to create color scale generator
     function makeColorScale(data){
         var colorClasses = [
@@ -188,16 +188,12 @@
         for (var i=0; i<csvData.length; i++){
             var csvTract = csvData[i]; //the current region
             var csvKey = csvTract.GEOID10; //the CSV primary key
-
             //loop through geojson regions to find correct region
             for (var a=0; a<lorainTracts.length; a++){
-
                 var geojsonProps = lorainTracts[a].properties; //the current region geojson properties
                 var geojsonKey = geojsonProps.GEOID10; //the geojson primary key
-
                 //where primary keys match, transfer csv data to geojson properties object
                 if (geojsonKey == csvKey){
-
                     //assign all attributes and values
                     attrArray.forEach(function(attr){
                         var val = parseFloat(csvTract[attr]); //get csv attribute value
@@ -208,6 +204,7 @@
         };
         return lorainTracts;
     };
+    
     function setEnumerationUnits(lorainTracts, map, path, colorScale){
         var tracts = map.selectAll(".tracts")
         .data(lorainTracts)
@@ -230,8 +227,39 @@
         .on("mousemove", moveLabel);
         
         var desc = tracts.append("desc")
-            .text('{"stroke": "#000", "stroke-width": "0.5px"}');
-
+            .text('{"stroke": "rgba(0, 0, 0, 0.3)", "stroke-width": "0.8px"}');
+    };
+    
+    function setCities(cities, map, path){
+        var loCities = map.selectAll(".loCities")
+        .data(cities)
+        .enter()
+        .append("path")
+        .attr("class", function(d){
+            return "loCities " + d.properties.CityName;
+        })
+        .attr("d", path)
+        .attr( "visibility", "hidden")
+        .on("mouseover", function(d){
+            highlightCity(d.properties);
+        })
+        .on("mouseout", function(d){
+            dehighlightCity(d.properties);
+        })
+        .on("mousemove", moveLabel);
+        
+        var desc2 = loCities.append("desc2")
+            .text('{"stroke": "none", "stroke-width": "0.5px"}');
+        
+        var cityCheckbox = document.querySelector('input[id="cityToggle"]');
+        
+        cityCheckbox.onchange = function() {
+          if(this.checked) {
+            d3.selectAll(".loCities").attr("visibility", "visible");
+          } else {
+            d3.selectAll(".loCities").attr("visibility", "hidden");
+          }
+        };
     };
     
     //function to create coordinated bar chart
@@ -244,15 +272,12 @@
         .attr("height", chartHeight)
         .attr("class", "chart");
         
-        
         //create a rectangle for chart background fill
         var chartBackground = chart.append("rect")
             .attr("class", "chartBackground")
             .attr("width", chartInnerWidth)
             .attr("height", chartInnerHeight)
             .attr("transform", translate);;
-
-       
 
         //set bars for each tract
         var bars = chart.selectAll(".bars")
@@ -278,31 +303,17 @@
             .attr("x", 10)
             .attr("y", 30)
             .attr("class", "chartTitle");
-            
+                    
         var xAxis = d3.svg.axis()
             .scale(xScale);
         
-//        //create vertical axis
-//        var yAxis = d3.axisBottom()
-//            .scale(xScale);
-//        
         var axis = chart.append("g")
             .attr("class", "axis")
             .attr("transform", charttranslate) //change the 10 in order to change how far down the axis is. 
             .call(xAxis)
             
-        
-        
-//        
-//        var chartFrame = chart.append("rect")
-//            .attr("class", "chartFrame")
-//            .attr("width", chartInnerWidth)
-//            .attr("height", chartInnerHeight)
-//            .attr("transform", translate);
-//        
         //set bar positions, heights, and colors
         updateChart(bars, csvData.length, colorScale);
-        
     };
     
     //function to create a dropdown menu for attribute selection
@@ -445,17 +456,13 @@
             .append("div")
             .attr("class", "infolabel")
             .attr("id", props.GEOID10 + "_label")
-            .html(labelAttribute);
-
-        var regionName = infolabel.append("div")
-            .attr("class", "labelname")
-            .html(props.name);
+            .html(labelAttribute);       
     };
     
     //function to move info label with mouse
     function moveLabel(){
         //get width of label
-        var labelWidth = d3.select(".infolabel")
+        var labelWidth = d3.select(".infolabel,.infolabelcity")
             .node()
             .getBoundingClientRect()
             .width;
@@ -471,11 +478,51 @@
         //vertical label coordinate, testing for overflow
         var y = d3.event.clientY < 75 ? y2 : y1; 
 
-        d3.select(".infolabel")
+        d3.select(".infolabel,.infolabelcity")
             .style("left", x + "px")
             .style("top", y + "px");
     };
     
+    function highlightCity(props){
+        //change stroke
+        var selected = d3.selectAll("." + props.CityName)
+            .style("stroke", "#50326E") //change highlight color here B84704
+            .style("stroke-width", "4");
+        
+        setCityLabel(props);
+    };
     
+    function dehighlightCity(props){
+        var selected = d3.selectAll("." + props.CityName)
+            .style("stroke", function(){
+                return getStyle(this, "stroke")
+            })
+            .style("stroke-width", function(){
+                return getStyle(this, "stroke-width")
+            });
+
+        function getStyle(element, styleName){
+            var styleText = d3.select(element)
+                .select("desc2")
+                .text();
+
+            var styleObject = JSON.parse(styleText);
+
+            return styleObject[styleName];
+        };
+        d3.select(".infolabelcity")
+            .remove();
+    };
     
+    function setCityLabel(props){
+        //label content
+        var labelAttribute = props.CityName;
+
+        //create info label div
+        var infolabelcity = d3.select("body")
+            .append("div")
+            .attr("class", "infolabelcity")
+            .attr("id", props.CityName + "_label")
+            .html(labelAttribute);
+    };
 })();
