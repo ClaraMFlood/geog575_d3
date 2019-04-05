@@ -54,7 +54,7 @@
             .attr("width", width)
             .attr("height", height);
 
-        //create Albers equal area conic projection centered on France
+        //create Albers equal area conic projection centered on Ohio
         var projection = d3.geoAlbers()
             .center([0, 41.29])
             .rotate([82.2, 0])
@@ -80,7 +80,7 @@
             
             var ohioOutline = topojson.feature(ohio, ohio.objects.OhioState);
             
-            //add Europe countries to map
+            //add ohio outline to map
             var outlines = conmap.append("path")
                 .datum(ohioOutline)
                 .attr("class", "outlines")
@@ -111,7 +111,7 @@
             .attr("width", width)
             .attr("height", height);
 
-        //create Albers equal area conic projection centered on France
+        //create Albers equal area conic projection centered on lorain
         var projection = d3.geoAlbers()
             .center([0, 41.29])
             .rotate([82.2, 0])
@@ -130,7 +130,7 @@
             .await(callback);
 
         function callback(error, csvData, loraint, cities){
-            //translate europe TopoJSON
+            //translate lorain TopoJSON
             var lorainTracts = topojson.feature(loraint, loraint.objects.lorain).features;
             var lorainCities = topojson.feature(cities, cities.objects.LorainCoCities).features;
             //join csv data to GeoJSON enumeration units

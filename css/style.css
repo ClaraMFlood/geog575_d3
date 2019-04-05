@@ -291,7 +291,7 @@ input:checked + .slider:before {
     z-index: 1000;
     font-family: 'mukta', sans-serif;
     line-height: 1.5;
-    font-size: 1.5vw;
+    font-size: 1.2vw;
 }
 
 .popup h2 {
