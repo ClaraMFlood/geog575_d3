@@ -249,7 +249,7 @@
         .on("mousemove", moveLabel);
         
         var desc2 = loCities.append("desc2")
-            .text('{"stroke": "none", "stroke-width": "0.5px"}');
+            .text('{"stroke": "#000", "stroke-width": "0.5px"}');
         
         var cityCheckbox = document.querySelector('input[id="cityToggle"]');
         
@@ -418,7 +418,7 @@
     function highlight(props){
         //change stroke
         var selected = d3.selectAll("." + props.GEOID10)
-            .style("stroke", "#50326E") //change highlight color here B84704
+            .style("stroke", "#50326E") //change highlight color here, current purple, optional orange B84704
             .style("stroke-width", "4");
         
         setLabel(props);
@@ -525,4 +525,21 @@
             .attr("id", props.CityName + "_label")
             .html(labelAttribute);
     };
+    
 })();
+
+$(document).ready(function() {
+    $(function(){
+      
+      $('#popup1').css("visibility", "visible"); 
+       $('#popup1').css("opacity", 1); 
+      
+       });
+  
+  $( ".close" ).click(function() {
+    
+       $('#popup1').css("visibility", "hidden"); 
+       $('#popup1').css("opacity", 0);
+    });
+});
+

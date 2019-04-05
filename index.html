@@ -17,6 +17,22 @@
 	<body>
 		<!--put your initial page content here-->
 
+
+
+        <div id="popup1" class="overlay">
+            <div class="popup">
+                <h2>Explore The Spatial Distribution of Vulnerable Populations in Lorain County</h2>
+                <a class="close" href="#">×</a>
+                <div class="content">
+                    This application is designed to allow you, the user, to explore a variety of factors which the CDC considers when examining at-risk and vulnerable populations. For example, households with lower income are more at risk of falling into poverty when a crisis occurs.<br>
+                    This application allows non-profit and emergency response organizations to be able to better understand spatially where people who will potentially require services are located, in order to enable these organizations to focus their efforts, both in on the ground response as well as in applying for grants to support the on the ground response.<br>
+                    Hover over the map or bar graph in order to discover statistics related to that area, change which vulnerability factor you want to examine by changing the drop down menu, or turn on an additional layer in order to help your orientation.
+                </div>
+            </div>
+        </div>
+
+	
+        
         <div id="titlePage"> Vulnerable Populations:<br>
             Lorain County
             <div id="menuHolder"></div>
@@ -30,6 +46,13 @@
                             </label></td>
                             <td><p class="tableText">Lorain County Cities</p></td>
                         </tr>
+                        <!--<tr>
+                            <td><label class="switch">
+                              <input id="roadToggle" type="checkbox">
+                              <span class="slider round"></span> 
+                            </label></td>
+                            <td><p class="tableText">Major Roads</p></td>
+                        </tr>-->
                     </table>
                 </div>
             <div id="attributionHolder">Data Source: US Census Bureau <br> Projection: Albers Equal Area <br> Map by: Clara Margaret Flood
@@ -41,6 +64,7 @@
         </div>
 
 		<!--put your external script links here-->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
         <script type="text/javascript" src="lib/d3/d3.min.js"></script>
         <!--<script type="text/javascript" src="lib/d3-axis.v1.min.js">
         <script type="text/javascript" src="lib/d3-scale/d3-scale.v3.min.js"></script></script>-->
