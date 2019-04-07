@@ -249,7 +249,7 @@
         .on("mousemove", moveLabel);
         
         var desc2 = loCities.append("desc2")
-            .text('{"stroke": "#000", "stroke-width": "0.5px"}');
+            .text('{"stroke": "#000", "stroke-width": "1px"}');
         
         //grabs toggle button
         var cityCheckbox = document.querySelector('input[id="cityToggle"]');
@@ -304,6 +304,7 @@
             .attr("x", 10)
             .attr("y", 30)
             .attr("class", "chartTitle");
+        
                     
         var xAxis = d3.svg.axis()
             .scale(xScale);
@@ -400,6 +401,7 @@
         
         var chartTitle = d3.select(".chartTitle")
             .text(expressed + " by Census Tract");
+        
         
         var xAxis = d3.svg.axis()
             .scale(xScale);

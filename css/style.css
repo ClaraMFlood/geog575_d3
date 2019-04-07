@@ -38,6 +38,7 @@ body {
     font-weight: bold;
 }
 
+
 .chartBackground {
     fill: none;
 } 
@@ -120,7 +121,7 @@ option {
 .loCities {
     fill: #fff;
     stroke: #000;
-    stroke-width: 0.5;
+    stroke-width: 1;
 }
 
 .infolabelcity {
@@ -153,7 +154,7 @@ option {
     width: 25%;
     font-family: 'mukta', sans-serif;
     line-height: 1;
-    font-size: 2.5vw;
+    font-size: 2vw;
     font-weight: bolder;
     color: #e8e8e8;
     z-index: 10;
