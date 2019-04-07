@@ -116,7 +116,7 @@
             .center([0, 41.29])
             .rotate([82.2, 0])
             .parallels([43, 62])
-            .scale(width*140)
+            .scale(width*125)
             .translate([width / 2.9, height / 2]);
 
         var path = d3.geoPath()
@@ -251,6 +251,7 @@
         var desc2 = loCities.append("desc2")
             .text('{"stroke": "#000", "stroke-width": "0.5px"}');
         
+        //grabs toggle button
         var cityCheckbox = document.querySelector('input[id="cityToggle"]');
         
         cityCheckbox.onchange = function() {
