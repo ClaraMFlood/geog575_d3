@@ -4,7 +4,7 @@
 (function(){
     
     //pseudo-global variables
-    var attrArray = ["Mean Household Income", "Percent Without Health Insurance", "Percent Unemployed", "Percent Without High School Degree", "Percent Without Bachelor's Degree", "Percent With Disability"];
+    var attrArray = ["Mean Household Income", "% Without Health Insurance", "% Unemployed", "% Without High School Degree", "% Without Bachelor's Degree", "% With Disability"];
     var expressed = attrArray[0]; //initial attribute
     
     //context map dimensions
@@ -25,10 +25,11 @@
         chartHeight = chartHeight - margin.top - margin.bottom,
         leftPadding = 7,
         rightPadding = 10,
-        topPadding = 50,
+        topPadding = 5,
         topBottomPadding = 5,
+        bottomPadding = 65,
         chartInnerWidth = chartWidth - rightPadding - leftPadding,
-        chartInnerHeight = chartHeight - topPadding,
+        chartInnerHeight = chartHeight - topPadding - bottomPadding,
         translate = "translate(" + leftPadding + "," + topBottomPadding + ")",
         charttranslate = "translate(" + leftPadding + "," + (chartInnerHeight - 10) + ")";
 
@@ -127,7 +128,7 @@
             .projection(projection);
         
        var zoomTitle = map.append("text")
-                .attr("x", (width/2.5))
+                .attr("x", (width/2.2))
                 .attr("y", (height/1.01))
                 .attr ("width", width)
                 .attr("class", "zoomTitle");
@@ -314,8 +315,8 @@
             
         //create text element for chart title
         var chartTitle = chart.append("text")
-            .attr("x", 10)
-            .attr("y", 30)
+            .attr("x", (chartWidth/6.9))
+            .attr("y", (chartHeight/1.01))
             .attr("class", "chartTitle");
         
                     

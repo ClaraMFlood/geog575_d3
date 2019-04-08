@@ -1,4 +1,4 @@
-ID,GEOID10,Name,Mean Household Income,Percent Without Health Insurance,Percent Unemployed,Percent Without High School Degree,Percent Without Bachelor's Degree,Percent With Disability
+ID,GEOID10,Name,Mean Household Income,% Without Health Insurance,% Unemployed,% Without High School Degree,% Without Bachelor's Degree,% With Disability
 1,a39093010200,Census Tract 102,94501,3.4,2.2,3.1,60.8,10.2
 2,a39093010300,Census Tract 103,89236,1,1.2,4.5,54.8,11.6
 3,a39093010400,Census Tract 104,75872,6.5,2.5,4.6,63.6,13.9
