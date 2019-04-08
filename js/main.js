@@ -68,13 +68,11 @@
 
         //use queue to parallelize asynchronous data loading
         d3.queue()
-            .defer(d3.csv, "data/loraindemo.csv") //load attributes from csv
-            //.defer(d3.json, "data/WorldCountries.topojson") //load choropleth spatial data
             .defer(d3.json, "data/LorainCo.topojson") //load choropleth spatial data
             .defer(d3.json, "data/OhioState.topojson")
             .await(callback);
 
-        function callback(error, csvData, lorainc, ohio){
+        function callback(error, lorainc, ohio){
             
             //translate TopoJSON
             var lorainCounty = topojson.feature(lorainc, lorainc.objects.LorainCo);
