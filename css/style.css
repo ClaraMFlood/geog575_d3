@@ -2,6 +2,11 @@ body {
     background-color: #212121;
 }
 
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
 .tracts {
     stroke: rgba(0, 0, 0, 0.3);
     stroke-width: 0.8px;

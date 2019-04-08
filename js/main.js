@@ -109,7 +109,11 @@
             .append("svg")
             .attr("class", "map")
             .attr("width", width)
-            .attr("height", height);
+            .attr("height", height)
+            .call(d3.behavior.zoom().on("zoom", function () {
+                map.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+            }))
+            .append("g");
 
         //create Albers equal area conic projection centered on lorain
         var projection = d3.geoAlbers()
