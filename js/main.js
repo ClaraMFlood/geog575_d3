@@ -125,7 +125,16 @@
 
         var path = d3.geoPath()
             .projection(projection);
-
+        
+       var zoomTitle = map.append("text")
+                .attr("x", (width/2.5))
+                .attr("y", (height/1.01))
+                .attr ("width", width)
+                .attr("class", "zoomTitle");
+            
+        var zoomWords = d3.select(".zoomTitle")
+                .text("Use your scroll wheel or track pad to zoom in!"); 
+        
         //use queue to parallelize asynchronous data loading
         d3.queue()
             .defer(d3.csv, "data/loraindemo.csv") //load attributes from csv

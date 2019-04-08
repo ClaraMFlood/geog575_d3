@@ -16,9 +16,14 @@ body {
 .map {
     border: medium solid #6B6B6B;
     background-color: rgba(128,128,128,.2);
-    box-shadow: 2px 2px 10px rgba(181, 181, 181, 0.2); 
-    
-    
+    box-shadow: 2px 2px 10px rgba(181, 181, 181, 0.2);
+}
+
+.zoomTitle {
+    font-family: 'mukta', sans-serif;
+    font-size: 1.1vw;
+    fill: #8f8f8f;
+    font-style: italic;
 }
 
 .numbers {
@@ -281,7 +286,9 @@ input:checked + .slider:before {
   background: rgba(0, 0, 0, 0.7);
   visibility: hidden;
   opacity: 0;
+    z-index: 11;
 }
+
 .overlay:target {
   visibility: visible;
   opacity: 1;
